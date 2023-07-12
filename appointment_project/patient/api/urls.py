@@ -5,4 +5,5 @@ urlpatterns = [
     path('<int:pk>/',patient_details, name="patient_details"),
     path('list/',get_patients, name="patient_list"),
     path('login/',login_view, name="login_view"),
+    
 ]

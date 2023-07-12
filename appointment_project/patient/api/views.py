@@ -1,17 +1,20 @@
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import AuthenticationFailed
-from django.http import HttpResponse
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication
 
 from patient.api.serializers import PatientSerializer,PatientAddSerializer
 from patient.models import Patient
-from django.contrib.auth import authenticate
-from rest_framework_simplejwt.tokens import RefreshToken
+
 
 
 
 @api_view(['GET','POST'])
+@permission_classes([IsAuthenticated])
 def get_patients(request):
     if request.method == 'GET':
         patients= Patient.objects.all()
@@ -28,6 +31,7 @@ def get_patients(request):
     
     
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def patient_details(request,pk):
     try:
         patient= Patient.objects.get(pk=pk)
