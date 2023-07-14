@@ -1,12 +1,15 @@
-{% extends 'base.html' %}
-{% block title %}Patient Registration{% endblock title %}
+{% extends 'frontpage/base.html' %}
+
+{% comment %} {% block title %}Patient Registration{% endblock title %} {% endcomment %}
 
 {% load crispy_forms_tags %}
-{% block headline %}Patient Registration{% endblock headline %}
+{% comment %} {% block headline %}Patient Registration{% endblock headline %} {% endcomment %}
 
 {% block content %}
-
-
+<br>
+<br>
+<br>
+<div class="container">
 <form method="POST">
     {% csrf_token %}
     <div class="row">
@@ -19,13 +22,14 @@
         <div class="col-md-6">{{ register_form.password2|as_crispy_field }}</div>
     </div>
     <div class="row">
-        <div class="col-md-5"></div>
-        <div class="col-md-2"> <button type="submit" class="btn btn-primary btn-block btn-lg">Save Patient</button></div>
-        <div class="col-md-5"></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-3"> <button type="submit" class="btn btn-primary btn-block btn-lg">Save Patient</button></div>
+        <div class="col-md-4"></div>
     </div>
     {% for error in register_form.errors %}
     <p style="color:red">{{error}}</p>
     {% endfor %}
 </form>
+</div>
 
 {% endblock content %}
