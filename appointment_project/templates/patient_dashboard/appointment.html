@@ -1,0 +1,62 @@
+{% extends 'patient_dashboard/base.html' %}
+{% block title %}Appointment{% endblock title %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-6">
+             <div class="form-group">
+                <label for="name">Name</label>
+                <input type="hidden" class="form-control" name="patient_id" value="{{user.id}}">
+                <input type="text" class="form-control" name="patient_name" placeholder="{{user.name}}" readonly>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+               <label for="name">Department</label>
+               <select class="form-control" name="department_id">
+                <option>Please Select Department</option>
+                {% if departments %}
+                {% for department in departments %}
+                <option value="{{department.id}}">{{department.department_name}}</option>
+                {% endfor %}
+                {% endif %}
+              </select>
+           </div>
+       </div>
+        
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+               <label for="name">Doctor</label>
+               <select class="form-control" name="doctor_id">
+                <option>Please Select Doctor</option>
+                {% if doctors %}
+                {% for doctor in doctors %}
+                <option value="{{doctor.id}}">{{doctor.name}}</option>
+                {% endfor %}
+                {% endif %}
+              </select>
+           </div>
+       </div>
+
+       <div class="col-md-6">
+        <div class="form-group">
+            <label for="name">Appointment Date</label>
+           <input type="date" class="form-control" name="date">
+       </div>
+   </div>
+    </div>
+    <button type="submit" class="btn btn-primary">GET an Appointment</button>
+</form>
+{% endblock content %}
+
+
+

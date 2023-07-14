@@ -26,3 +26,8 @@ class UserLoginForm(forms.ModelForm):
             if not authenticate(email=email,password=password):
                 raise forms.ValidationError("Invalid Credentials")
             
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model=Patient
+        fields=['id','name','email','phone']
+            

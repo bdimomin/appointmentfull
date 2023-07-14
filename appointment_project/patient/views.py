@@ -1,12 +1,14 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
-from .forms import PatientRegistrationForm,UserLoginForm
+from .forms import PatientRegistrationForm,UserLoginForm,ProfileEditForm
+from .models import Patient
+
 
 
 @login_required(login_url='patient/login/')
 def home_view(request):
-    return render(request,'dashboard.html')
+    return render(request,'patient_dashboard/dashboard.html')
 
 def register(request):
     if request.user.is_authenticated:
@@ -43,6 +45,16 @@ def login_view(request):
         form=UserLoginForm()
         context['login_form']=form
     return render(request,'registration/login.html',context)
+
+def profile_edit(request,pk):
+    patient= Patient.objects.get(pk=pk)
+    form =ProfileEditForm(instance=patient)
+    if request.method == 'POST':
+        form=ProfileEditForm(request.POST,instance=patient)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+    return render(request,'patient_dashboard/edit_patient.html',{'form':form})
 
 def logout_view(request):
     logout(request)
