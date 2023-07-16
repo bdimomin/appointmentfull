@@ -55,7 +55,7 @@ class Doctor(AbstractBaseUser):
     email = models.EmailField(max_length=100, verbose_name="Email Address",unique=True)
     name = models.CharField(max_length=100, verbose_name="Name")
     phone=models.CharField(max_length=20, verbose_name="Phone", unique=True)
-    department=models.ForeignKey(Departments,verbose_name="Department", on_delete=models.CASCADE)
+    department=models.ForeignKey(Departments,verbose_name="Department", on_delete=models.CASCADE, related_name='department')
     bmdc_registration_number=models.CharField(max_length=50,verbose_name="BM&DC Registration Number",unique=True)
     
     date_joined=models.DateTimeField(auto_now_add=True)
@@ -71,7 +71,7 @@ class Doctor(AbstractBaseUser):
     objects=DoctorManager()
     
     def __str__(self):
-        return self.name
+        return self.name 
 
     def has_perm(self, perm,obj=None):
         return True

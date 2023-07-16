@@ -4,10 +4,14 @@ from doctor.models import Doctor,Departments
 
 # Create your models here.
 class Appointment(models.Model):
-    patient_name = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name="patient_names", verbose_name="Patient Name")
+    patient_name = models.CharField(max_length=100)
+    patient_age = models.CharField(max_length=3)
+    patient_gender= models.CharField(max_length=7)
     department_name = models.ForeignKey(Departments, on_delete=models.CASCADE,related_name="department_names",verbose_name="Department Name")
-    doctor_name = models.ForeignKey(Doctor, on_delete=models.CASCADE,related_name="doctor_names",verbose_name="Doctor Name")
+    doctor_name = models.ForeignKey(Doctor, on_delete=models.CASCADE,related_name="doctor_name",verbose_name="Doctor Name")
     appoinment_date = models.DateField(verbose_name='Appoinment Date', null=True)
+    serial_number = models.IntegerField(verbose_name='Serial Number')
+    user_id = models.IntegerField(verbose_name='User_id')
 
     
     class Meta:

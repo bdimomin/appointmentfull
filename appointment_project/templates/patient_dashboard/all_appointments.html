@@ -16,10 +16,14 @@
 <table class="table">
     <thead class="thead-dark">
       <tr>
-        <th scope="col">SL.</th>
+        <th scope="col">List</th>
+        <th scope="col">Patient Name</th>
+        <th scope="col">Age</th>
+        <th scope="col">Gender</th>
         <th scope="col">Date</th>
         <th scope="col">Doctor's Name</th>
         <th scope="col">Department</th>
+        <th scope="col">Serial Number</th>
         <th scope="col">Action</th>
       </tr>
     </thead>
@@ -27,9 +31,15 @@
         {% for appointment in appointments %}
       <tr>
         <th scope="row">{{forloop.counter}}</th>
+        <td>{{appointment.patient_name}}</td>
+        <td>{{appointment.patient_age}}</td>
+        <td>{{appointment.patient_gender}}</td>
+
+
         <td>{{appointment.appoinment_date}}</td>
         <td>{{appointment.doctor_name}}</td>
         <td>{{appointment.department_name}}</td>
+        <td>{{appointment.serial_number}}</td>
         <td>
           {% if today < appointment.appoinment_date %}
           <a href="" class="btn btn-warning">Edit</a> 
@@ -47,6 +57,7 @@
   {% else %}
   <h3 class="text-center alert alert-danger" role="alert">No Appointment Found</h3>
   {% endif %}
+
 {% endblock content %}
 
 

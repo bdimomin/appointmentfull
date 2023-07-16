@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from .forms import PatientRegistrationForm,UserLoginForm,ProfileEditForm
 from .models import Patient
+from django.contrib import messages
 
 
 
@@ -27,24 +28,27 @@ def register(request):
     return render(request,'registration/sign_up.html',context)
 
 def login_view(request):
-    if request.user.is_authenticated:
+    
+    if request.user.is_authenticated: 
         return redirect('dashboard') 
-
-    context={}
+    
+    
+    form= UserLoginForm()
+    context={'form':form}
     if request.method=="POST":
-        form= UserLoginForm(request.POST)
+        form=UserLoginForm(request.POST)
         if form.is_valid():
             email=request.POST['email']
             password=request.POST['password']
             user=authenticate(request,email=email,password=password)
-            
             if user is not None:
                 login(request,user)
                 return redirect('dashboard')
-    else:
-        form=UserLoginForm()
-        context['login_form']=form
+            else:
+                form=UserLoginForm()
+                return render(request,'registration/login.html',context)
     return render(request,'registration/login.html',context)
+
 
 def profile_edit(request,pk):
     patient= Patient.objects.get(pk=pk)
@@ -55,6 +59,8 @@ def profile_edit(request,pk):
             form.save()
             return redirect('dashboard')
     return render(request,'patient_dashboard/edit_patient.html',{'form':form})
+
+
 
 def logout_view(request):
     logout(request)

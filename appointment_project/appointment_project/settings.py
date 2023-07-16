@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap4",
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_swagger',
     
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
