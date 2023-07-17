@@ -6,16 +6,17 @@ from doctor.models import Doctor
 from django.db.models import Max
 from django.contrib.auth.decorators import login_required
 
+
 from datetime import date
 
 
 
 def appointment(request):
     departments= Departments.objects.all()
-    doctors = Doctor.objects.all()
+    # doctors = Doctor.objects.all()
     context={
         'departments':departments,
-        'doctors':doctors
+        
     }
     
     if request.method == 'POST':
@@ -43,6 +44,15 @@ def appointment(request):
             
         return redirect('appointment_list')  
     return render(request,'patient_dashboard/appointment.html',context)
+
+
+def load_doctors(request):
+    department_id=request.GET.get('department_id')
+    doctors=Doctor.objects.filter(department_id=department_id)
+    context={
+        'doctors':doctors
+    }
+    return render(request,'patient_dashboard/doctors.html',context)
 
 def all_appointments(request):
     today = date.today()
@@ -80,4 +90,6 @@ def date_doc_appointment(request):
     else:
        
         return redirect('dashboard')
+    
+
 

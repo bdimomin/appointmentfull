@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<form method="POST">
+<form method="POST" id="appointment" data-doctors-url="{% url 'ajax_load_doctors' %}">
     {% csrf_token %}
     <div class="row">
         <div class="col-md-4">
@@ -41,7 +41,7 @@
         <div class="col-md-4">
             <div class="form-group">
                <label for="name">Department</label>
-               <select class="form-control" name="department_id">
+               <select class="form-control" name="department_id" id="department_id">
                 <option>Please Select Department</option>
                 {% if departments %}
                 {% for department in departments %}
@@ -54,13 +54,9 @@
         <div class="col-md-4">
             <div class="form-group">
                <label for="name">Doctor</label>
-               <select class="form-control" name="doctor_id">
-                <option>Please Select Doctor</option>
-                {% if doctors %}
-                {% for doctor in doctors %}
-                <option value="{{doctor.id}}">{{doctor.name}}</option>
-                {% endfor %}
-                {% endif %}
+               <select class="form-control" name="doctor_id" id="doctor_id">
+                
+
               </select>
            </div>
        </div>
@@ -74,6 +70,25 @@
     </div>
     <button type="submit" class="btn btn-primary">GET an Appointment</button>
 </form>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $("#department_id").change(function () {
+      var url = $("#appointment").attr("data-doctors-url");  // get the url of the `load_courses` view
+      var department_id = $(this).val();  // get the selected programming ID from the HTML input
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/load-courses/)
+        data: {
+          'department_id': department_id       // add the programming id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_courses` view function
+          $("#doctor_id").html(data);  // replace the contents of the course input with the data that came from the server
+        }
+      });
+
+    });
+  </script>
 
 
 {% endblock content %}

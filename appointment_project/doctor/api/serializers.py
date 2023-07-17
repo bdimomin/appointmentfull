@@ -5,7 +5,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Departments
-        fields='__all__'
+        fields=['department_name']
     
 class DoctorSerializer(serializers.ModelSerializer):
     

@@ -2,6 +2,7 @@ from django.db import models
 from patient.models import Patient
 from doctor.models import Doctor,Departments
 
+
 # Create your models here.
 class Appointment(models.Model):
     patient_name = models.CharField(max_length=100)

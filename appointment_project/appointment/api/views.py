@@ -1,21 +1,16 @@
-from rest_framework.response import Response
 from appointment.api.serializers import AppointmentSerializer
 from appointment.models import Appointment
 from doctor.models import Doctor
 
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from rest_framework import generics
+from rest_framework.permissions import IsAdminUser
 
-
-
-
-
-def new_appointment(request):
-    pass 
 
 class Appointment_list(generics.ListAPIView):
     serializer_class=AppointmentSerializer
+    
+    permission_classes = [IsAdminUser]
+    
     def get_queryset(self):
         bmdc=self.kwargs['bmdc']
         doc= Doctor.objects.get(bmdc_registration_number=bmdc)
