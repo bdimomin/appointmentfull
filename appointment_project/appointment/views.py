@@ -91,5 +91,11 @@ def date_doc_appointment(request):
        
         return redirect('dashboard')
     
+    
+def delete_appointment(request,pk):
+    appointment=Appointment.objects.get(id=pk)
+    appointment.delete()
+    return redirect('appointment_list')
+    
 
 
