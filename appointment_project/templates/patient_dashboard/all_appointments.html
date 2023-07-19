@@ -20,6 +20,7 @@
         <th scope="col">Patient Name</th>
         <th scope="col">Age</th>
         <th scope="col">Gender</th>
+        <th scope="col">Email</th>
         <th scope="col">Date</th>
         <th scope="col">Doctor's Name</th>
         <th scope="col">Department</th>
@@ -34,7 +35,7 @@
         <td>{{appointment.patient_name}}</td>
         <td>{{appointment.patient_age}}</td>
         <td>{{appointment.patient_gender}}</td>
-
+        <td>{{appointment.patient_email}} </td>
 
         <td>{{appointment.appoinment_date}}</td>
         <td>{{appointment.doctor_name}}</td>
@@ -44,7 +45,7 @@
           {% if today < appointment.appoinment_date %}
           
           
-
+          <a href="{% url 'delete_appointment' appointment.id%}" class="btn btn-danger">Cancel</a>
           {% else %}
           <a href="{% url 'delete_appointment' appointment.id%}" class="btn btn-danger">Delete</a>
           {% endif %}
