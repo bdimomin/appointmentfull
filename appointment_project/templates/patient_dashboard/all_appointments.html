@@ -43,9 +43,16 @@
         <td>{{appointment.serial_number}}</td>
         <td>
           {% if today < appointment.appoinment_date %}
+            {% if appointment.is_canceled == 1 %}
+            <a href="{% url 'delete_appointment' appointment.id%}" class="btn btn-danger">Delete</a>
+
+            {% else %}
+            <a href="{% url 'cancel_appointment' appointment.id %}" class="btn btn-danger">Cancel</a>
+            <a href="{% url 'delete_appointment' appointment.id%}" class="btn btn-danger">Delete</a>
+            {% endif %}
           
-          
-          <a href="{% url 'delete_appointment' appointment.id%}" class="btn btn-danger">Cancel</a>
+          <!-- <a href="{% url 'cancel_appointment' appointment.id %}" class="btn btn-danger">Cancel</a> -->
+                  
           {% else %}
           <a href="{% url 'delete_appointment' appointment.id%}" class="btn btn-danger">Delete</a>
           {% endif %}

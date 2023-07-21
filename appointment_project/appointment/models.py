@@ -14,7 +14,7 @@ class Appointment(models.Model):
     appoinment_date = models.DateField(verbose_name='Appoinment Date', null=True)
     serial_number = models.IntegerField(verbose_name='Serial Number')
     user_id = models.IntegerField(verbose_name='User_id')
-
+    is_canceled = models.BooleanField(default= False)
     
     class Meta:
         db_table = "appoinment"

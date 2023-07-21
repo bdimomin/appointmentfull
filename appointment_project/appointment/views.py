@@ -6,6 +6,7 @@ from doctor.models import Doctor
 from django.db.models import Max
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
+from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
 
@@ -41,21 +42,46 @@ def appointment(request):
         appointment=Appointment.objects.filter(appoinment_date=appointment_date, doctor_name=doctor_name).aggregate(Max('serial_number'))['serial_number__max']
         
         if not appointment:
-             Appointment.objects.create(user_id=user_id,patient_name=patient_name,patient_age=patient_age,patient_gender=patient_gender,patient_email=patient_email,department_name=department_name,doctor_name=doctor_name,serial_number=1,appoinment_date=appointment_date).save()
+             Appointment.objects.create(user_id=user_id,patient_name=patient_name,patient_age=patient_age,patient_email=patient_email,patient_gender=patient_gender,department_name=department_name,doctor_name=doctor_name,serial_number=1,appoinment_date=appointment_date).save()
+             send_mail(
+                "Appointment Details",
+                "Congratulations Mr/Mrs. "+ patient_name +" sir/madam, You have taken a serial on "+str(appointment_date)+" of doctor Mr." +str(doctor_name)+ ". Your Serial number is :  1.",
+                "appointmentdoctor1@gmail.com",
+                [patient_email],
+                fail_silently=False,
+                )
+            
         else:
             appointment+=1
-            Appointment.objects.create(user_id=user_id,patient_name=patient_name,patient_age=patient_age,patient_gender=patient_gender,patient_email=patient_email,department_name=department_name,doctor_name=doctor_name,serial_number=appointment,appoinment_date=appointment_date).save()
-            def success(request,uid):
-                template = render_to_string('email.html', {'name': request.user.profile.name})
-                email = EmailMessage (
-                    'Your Appointment is Confirmed',
-                    template,
-                    settings.EMAIL_HOST_USER,
-                    [request.user.profile.email],
-                )
-
+            Appointment.objects.create(user_id=user_id,patient_name=patient_name,patient_age=patient_age,patient_email=patient_email,patient_gender=patient_gender,department_name=department_name,doctor_name=doctor_name,serial_number=appointment,appoinment_date=appointment_date).save()
+            send_mail(
+                "Appointment Details",
+               "Congratulations Mr/Mrs. "+ patient_name +" sir/madam, You have taken a serial on "+str(appointment_date)+" of doctor Mr." +str(doctor_name)+ ". Your Serial number is :  "+str(appointment),
+                "appointmentdoctor1@gmail.com",
+                [patient_email],
+                fail_silently=False,
+            )
         return redirect('appointment_list')  
     return render(request,'patient_dashboard/appointment.html',context)
+def cancel_appointment(request,pk):
+    appointment=Appointment.objects.get(id=pk)
+    if request.method == 'POST':
+        cancel = request.POST.get("appointment_status")
+        appointment=Appointment.objects.get(id=pk)
+        appointment.is_canceled = True
+        appointment.save()
+        send_mail(
+        "Appointment Details",
+        "Your appointment has been cancelled",
+        "appointmentdoctor1@gmail.com",
+        [appointment.patient_email],
+        fail_silently=False,
+        )
+        return redirect('appointment_list')
+        
+    return render(request, 'patient_dashboard/cancel_appointment.html', {"appointment": appointment})
+
+        
 
 
 def load_doctors(request):

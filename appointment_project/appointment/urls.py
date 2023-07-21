@@ -6,6 +6,7 @@ urlpatterns = [
     path('list/',views.all_appointments,name='appointment_list'),
     path('applist/',views.date_doc_appointment,name="date_doc_appointment"),
     path('delete/<int:pk>/',views.delete_appointment,name='delete_appointment'),
+    path('cancel/<int:pk>/', views.cancel_appointment,name ='cancel_appointment'),
     
     path('load-doctor/', views.load_doctors, name='ajax_load_doctors'),
     
