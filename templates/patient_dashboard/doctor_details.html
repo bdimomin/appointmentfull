@@ -1,0 +1,26 @@
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-">
+      {% for details in doctor %}
+      <h3>  About Doctor </h3>
+      <hr>
+      <p>BMDC Registratio: {{ details.bmdc_registration_number}}</p>
+      <hr>
+      <p>Name : {{ details.name}}</p>
+      <hr>
+      <p>Department : {{ details.department}}</p>
+
+      <hr>
+      <p>Fees : {{ details.fees}}</p>
+
+      <hr>
+      <p>About  : {{ details.about}}</p>
+    
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+

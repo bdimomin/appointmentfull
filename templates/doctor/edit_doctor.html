@@ -1,0 +1,55 @@
+{% extends 'doctor/base.html' %}
+{% block title %}Doctor Profile Update{% endblock title %}
+
+{% load crispy_forms_tags %}
+
+
+
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                        {{form.name|as_crispy_field}}
+                    </div>
+                    <div class="col-md-6">
+                        {{form.email|as_crispy_field}}
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{form.phone|as_crispy_field}}
+                   </div>
+                    <div class="col-md-6">
+                        {{form.fees|as_crispy_field}}
+                   </div>
+                  
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{form.about|as_crispy_field}}
+                    </div>
+                    <div class="col-md-6">
+                        {{form.department|as_crispy_field}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+
