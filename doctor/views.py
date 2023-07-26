@@ -73,15 +73,15 @@ def doctor_logout(request):
     return redirect('frontpage')
 
 def profile_doc(request,pk):
-    doctor= Doctor.objects.get(pk=pk)
-    department= Departments.objects.get(id=doctor.department_id)
-    details = DoctorsProfile.objects.filter(doctor_id=pk)
-    context={
-        'doctor':doctor,
-        'details':details,
-        'department':department
-    }
-    return render(request,'doctor/profile.html',context)
+    # doctor= Doctor.objects.get(pk=pk)
+    # department= Departments.objects.get(id=doctor.department_id)
+    # details = DoctorsProfile.objects.filter(doctor_id=pk)
+    # context={
+    #     'doctor':doctor,
+    #     'details':details,
+    #     'department':department
+    # }
+    # return render(request,'doctor/profile.html',context)
 
 def doctor_profile_details(request):
     if request.method =='POST':
