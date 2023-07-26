@@ -9,6 +9,7 @@ class Appointment(models.Model):
     patient_age = models.CharField(max_length=3)
     patient_email=models.EmailField(max_length=50)
     patient_gender= models.CharField(max_length=7)
+    phone_number = models.CharField(max_length=15)
     department_name = models.ForeignKey(Departments, on_delete=models.CASCADE,related_name="department_names",verbose_name="Department Name")
     doctor_name = models.ForeignKey(Doctor, on_delete=models.CASCADE,related_name="doctor_name",verbose_name="Doctor Name")
     appoinment_date = models.DateField(verbose_name='Appoinment Date', null=True)
