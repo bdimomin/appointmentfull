@@ -1,8 +1,10 @@
 from django.urls import path
+from django.contrib.auth.decorators import login_required
 from . import views
 
 urlpatterns = [
     path('',views.appointment,name="appointment"),
+    path('<int:department>/<int:doctor>/',views.appointment2, name="appointment2"),
     path('list/',views.all_appointments,name='appointment_list'),
     path('delete/<int:pk>/',views.delete_appointment,name='delete_appointment'),
     

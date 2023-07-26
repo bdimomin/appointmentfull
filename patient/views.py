@@ -45,9 +45,15 @@ def login_view(request):
             if user is not None and user.is_admin:
                 login(request,user)
                 return redirect('homepage')
+            
             elif user is not None:
-                login(request,user)
-                return redirect('dashboard')
+                if 'next' in request.POST:
+                    login(request,user)
+                    return redirect(request.POST.get('next'))
+                else:
+                    login(request,user)
+                    return(redirect('dashboard'))
+                
             else:
                 form=UserLoginForm()
                 return render(request,'registration/login.html',context)

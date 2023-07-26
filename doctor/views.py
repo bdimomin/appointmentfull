@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from doctor.forms import DoctorRegistrationForm,DoctorLoginForm,DoctorProfileUpdate, DoctorProfileDetails
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
-from doctor.models import Doctor, DoctorsProfile
+from doctor.models import Doctor, DoctorsProfile, Departments
 from appointment.models import Appointment
 from datetime import date
 
@@ -74,10 +74,12 @@ def doctor_logout(request):
 
 def profile_doc(request,pk):
     doctor= Doctor.objects.get(pk=pk)
+    department= Departments.objects.get(id=doctor.department_id)
     details = DoctorsProfile.objects.filter(doctor_id=pk)
     context={
         'doctor':doctor,
-        'details':details
+        'details':details,
+        'department':department
     }
     return render(request,'doctor/profile.html',context)
 
