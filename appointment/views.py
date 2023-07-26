@@ -61,6 +61,17 @@ def appointment(request):
         return redirect('appointment_list')  
     return render(request,'patient_dashboard/appointment.html',context)
 
+@login_required(login_url="/login/")
+def appointment2(request,department,doctor):
+    department = Departments.objects.get(id=department)
+    doctor= Doctor.objects.get(id=doctor)
+    context={
+        'department': department,
+        'doctor':doctor,
+    }
+    
+    return render(request,'patient_dashboard/appointment2.html',context)
+
 
 def load_doctors(request):
     department_id=request.GET.get('department_id')
