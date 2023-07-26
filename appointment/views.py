@@ -11,7 +11,7 @@ from django.core.mail import send_mail
 from datetime import date
 
 
-
+@login_required(login_url="/login/")
 def appointment(request):
     departments= Departments.objects.all()
     # doctors = Doctor.objects.all()
@@ -69,6 +69,45 @@ def appointment2(request,department,doctor):
         'department': department,
         'doctor':doctor,
     }
+    
+    if request.method == 'POST':
+        patient_name= request.POST.get('patient_name')
+        patient_age= request.POST.get('patient_age')
+        patient_email=request.POST.get('patient_email')
+        patient_gender= request.POST.get('patient_gender')
+        appointment_date= request.POST.get('date')
+        
+        department = request.POST.get('department_id')
+        doctor= request.POST.get('doctor_id')
+        
+        department_name=Departments.objects.get(id=department)
+        doctor_name=Doctor.objects.get(id=doctor)
+        
+        user_id=request.user.id
+        
+        appointment=Appointment.objects.filter(appoinment_date=appointment_date, doctor_name=doctor_name).aggregate(Max('serial_number'))['serial_number__max']
+        
+        if not appointment:
+             Appointment.objects.create(user_id=user_id,patient_name=patient_name,patient_age=patient_age,patient_email=patient_email,patient_gender=patient_gender,department_name=department_name,doctor_name=doctor_name,serial_number=1,appoinment_date=appointment_date).save()
+             send_mail(
+                "Appointment Details",
+                "Congratulations Mr/Mrs. "+ patient_name +", You have taken a serial on "+str(appointment_date)+" of doctor Mr." +str(doctor_name)+ ". Your Serial number is :  1.",
+                "appointmentdoctor1@gmail.com",
+                [patient_email],
+                fail_silently=False,
+            )
+        else:
+            appointment+=1
+            Appointment.objects.create(user_id=user_id,patient_name=patient_name,patient_age=patient_age,patient_email=patient_email,patient_gender=patient_gender,department_name=department_name,doctor_name=doctor_name,serial_number=appointment,appoinment_date=appointment_date).save()
+            send_mail(
+                "Appointment Details",
+               "Congratulations Mr/Mrs. "+ patient_name +", You have taken a serial on "+str(appointment_date)+" of doctor Mr." +str(doctor_name)+ ". Your Serial number is :  "+str(appointment),
+                "appointmentdoctor1@gmail.com",
+                [patient_email],
+                fail_silently=False,
+            )
+            
+        return redirect('appointment_list')
     
     return render(request,'patient_dashboard/appointment2.html',context)
 
