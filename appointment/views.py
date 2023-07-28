@@ -26,10 +26,6 @@ def send_sms_reminder(patient_name, phone_number, appointment_datetime,reminder_
 
     client = Client(account_sid, auth_token)
 
-    # Calculate the reminder time (3 hours before the appointment)
-    # reminder_time = appointment_datetime - timedelta(hours=3)
-
-    # Customize the reminder message
     message = f"Hello {patient_name}, your appointment with Dr. {doctor_name} is scheduled at {appointment_datetime}. Don't forget!"
 
     try:
@@ -94,18 +90,6 @@ def appointment(request):
                 [patient_email],
                 fail_silently=False,
             )
-            # account_sid = "ACe96aec894ba7878875d0e65af391dff1"
-            # auth_token = "fc0a86e4f4ae6878dd59767e6eb635d2"
-            # client = Client(account_sid, auth_token)
-
-
-            # message = client.messages \
-            #     .create(
-            #          body="Congratulations Mr/Mrs. "+ patient_name +", You have taken a serial on "+str(appointment_date)+" of doctor Mr." +str(doctor_name)+ ". Your Serial number is :  1.",
-            #          from_='+12186703680',
-            #          to=phone_number
-            #      )
-
             # print(message.sid)
             # appointment_datetime = datetime.combine(appointment_date, appointment_time)
             send_sms_reminder(patient_name, phone_number, appointment_datetime, reminder_time,doctor_name)    
