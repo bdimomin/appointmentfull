@@ -13,6 +13,7 @@ class Appointment(models.Model):
     department_name = models.ForeignKey(Departments, on_delete=models.CASCADE,related_name="department_names",verbose_name="Department Name")
     doctor_name = models.ForeignKey(Doctor, on_delete=models.CASCADE,related_name="doctor_name",verbose_name="Doctor Name")
     appoinment_date = models.DateField(verbose_name='Appoinment Date', null=True)
+    appointment_time = models.TimeField(null=True)
     serial_number = models.IntegerField(verbose_name='Serial Number')
     user_id = models.IntegerField(verbose_name='User_id')
     is_cancelled = models.BooleanField(default=False)
