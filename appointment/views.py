@@ -47,7 +47,7 @@ def send_sms_reminder(patient_name, phone_number, appointment_datetime,reminder_
         print("Error sending SMS:",str(e))
         return False
 
-
+@login_required(login_url="/login/")
 def appointment(request):
     departments= Departments.objects.all()
     # doctors = Doctor.objects.all()
@@ -120,7 +120,6 @@ def appointment2(request,department,doctor):
         'doctor':doctor,
     }
     
-    # send_sms_reminder(patient_name, patient_phone_number, appointment_date, doctor_name)
     return render(request,'patient_dashboard/appointment2.html',context)
 
 
