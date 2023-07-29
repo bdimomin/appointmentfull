@@ -49,15 +49,17 @@ def appointment(request):
                 [patient_email],
                 fail_silently=False,
             )
-            account_sid = "ACe96aec894ba7878875d0e65af391dff1"
-            auth_token = "fc0a86e4f4ae6878dd59767e6eb635d2"
+            account_sid = 'ACe96aec894ba7878875d0e65af391dff1'
+            auth_token = 'c30be6c726cba5968647fb9daf196138'
             client = Client(account_sid, auth_token)
 
             message = client.messages.create(
-                body= 'Congratulations Mr/Mrs. "+ patient_name +", You have taken a serial on "+str(appointment_date)+" of doctor Mr." +str(doctor_name)+ ". Your Serial number is :  1.',
-                from_='+12186703680',
-                to= phone_number
+            from_='+12186703680',
+            body='Congratulations Mr/Mrs. '+ patient_name+' , You have taken appointment of doctor'+doctor_name+' on' + appointment_date +' Your serial is : 1',
+            to='+'+str(phone_number)
             )
+
+            print(message.sid)
         else:
             appointment+=1
             Appointment.objects.create(user_id=user_id,patient_name=patient_name,patient_age=patient_age,patient_gender=patient_gender,patient_email=patient_email,phone_number=phone_number,department_name=department_name,doctor_name=doctor_name,serial_number=appointment,appoinment_date=appointment_date).save()
@@ -68,6 +70,17 @@ def appointment(request):
                 [patient_email],
                 fail_silently=False,
             )
+            account_sid = 'ACe96aec894ba7878875d0e65af391dff1'
+            auth_token = 'c30be6c726cba5968647fb9daf196138'
+            client = Client(account_sid, auth_token)
+
+            message = client.messages.create(
+            from_='+12186703680',
+           body='Congratulations Mr/Mrs. '+ patient_name+' , You have taken appointment of doctor'+doctor_name+' on' + appointment_date +' Your serial is : '+appointment,
+            to='+'+str(phone_number)
+            )
+
+            print(message.sid)
             
         return redirect('appointment_list')  
     return render(request,'patient_dashboard/appointment.html',context)
