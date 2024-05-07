@@ -1,2 +1,2 @@
 # appointmentfull
-Movie Review Django REST Framework API 
+Doctor Appointment System Using DRF
